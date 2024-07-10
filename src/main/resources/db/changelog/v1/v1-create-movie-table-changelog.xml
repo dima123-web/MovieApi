@@ -1,0 +1,60 @@
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+
+    <changeSet id="1" author="Petukhov Dmitriy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="movie"/>
+            </not>
+        </preConditions>
+        <createTable tableName="movie">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="type" type="VARCHAR(255)"/>
+            <column name="year" type="INTEGER"/>
+            <column name="description" type="VARCHAR(10000)"/>
+            <column name="short_description" type="VARCHAR(5000)"/>
+            <column name="slogan" type="VARCHAR(1000)"/>
+            <column name="movie_length" type="INTEGER"/>
+            <column name="age_rating" type="INTEGER"/>
+            <column name="rating_kp" type="FLOAT"/>
+            <column name="rating_imdb" type="FLOAT"/>
+            <column name="rating_film_critics" type="FLOAT"/>
+            <column name="poster_url" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="Petukhov Dmitriy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="movie_countries"/>
+            </not>
+        </preConditions>
+        <createTable tableName="movie_countries">
+            <column name="movie_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_movie_countries_movie" referencedTableName="movie" referencedColumnNames="id"/>
+            </column>
+            <column name="country" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3" author="Petukhov Dmitriy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="movie_genres"/>
+            </not>
+        </preConditions>
+        <createTable tableName="movie_genres">
+            <column name="movie_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_movie_genres_movie" referencedTableName="movie" referencedColumnNames="id"/>
+            </column>
+            <column name="genre" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
