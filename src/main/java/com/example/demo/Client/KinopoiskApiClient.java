@@ -37,4 +37,22 @@ public interface KinopoiskApiClient {
             @RequestParam(value = "genres.name") String genre
     );
 
+    //новые методы
+
+    @GetMapping("/v1.4/movie")
+    MovieApi findByPageByPopularity(
+            @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(value = "limit", required = false, defaultValue = "10") int limit,
+            @RequestParam(value = "lists") String lists
+    );
+
+    @GetMapping("/v1.4/movie")
+    MovieApi findByPageByNew(
+            @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(value = "limit", required = false, defaultValue = "10") int limit,
+            @RequestParam(value = "notNullFields", required = false, defaultValue = "poster.url") String poster,
+            @RequestParam(value = "year", required = false, defaultValue = "2024") String year
+    );
+
+
 }

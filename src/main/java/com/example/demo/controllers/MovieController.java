@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/movies")
+@CrossOrigin(origins = "http://localhost:5173/")
 public class MovieController {
 
     private final MovieService movieService;
@@ -31,12 +32,13 @@ public class MovieController {
         return movieService.getByPageByName(page, limit, name);
     }
 
+    // использую
     @GetMapping("/rating")
     @ResponseStatus(HttpStatus.OK)
     public List<Movie> getByPageByRating(
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
-            @RequestParam(value = "limit", required = false, defaultValue = "10") int limit,
-            @RequestParam(value = "rating.kp") String rating
+            @RequestParam(value = "limit", required = false, defaultValue = "16") int limit,
+            @RequestParam(value = "rating.kp", required = false, defaultValue = "9-10") String rating
     ) {
         return movieService.getByPageByRating(page, limit, rating);
     }
@@ -49,6 +51,28 @@ public class MovieController {
             @RequestParam(value = "genres.name") String genre
     ) {
         return movieService.getByPageByGenre(page, limit, genre);
+    }
+
+    // новые методы
+    @GetMapping("/popularity")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Movie> getByPageByPopularity(
+            @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(value = "limit", required = false, defaultValue = "16") int limit,
+            @RequestParam(value = "lists", required = false, defaultValue = "top250") String lists
+    ) {
+        return movieService.getByPageByPopularity(page, limit, lists);
+    }
+
+    @GetMapping("/new")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Movie> getByPageByNew(
+            @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(value = "limit", required = false, defaultValue = "16") int limit,
+            @RequestParam(value = "notNullFields", required = false, defaultValue = "poster.url") String poster,
+            @RequestParam(value = "year", required = false, defaultValue = "2024") String year
+    ) {
+        return movieService.getByPageByNew(page, limit, poster,year);
     }
 
 }

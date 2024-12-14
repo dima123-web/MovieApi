@@ -43,6 +43,19 @@ public class MovieService {
         return movieList;
     }
 
+    // новые методы
+    public List<Movie> getByPageByPopularity(int page, int limit, String lists) {
+        List<Movie> movieList = findWithApiByPageByPopularity(page, limit, lists);
+        movieRepository.saveAll(movieList);
+        return movieList;
+    }
+
+    public List<Movie> getByPageByNew(int page, int limit, String poster, String year) {
+        List<Movie> movieList = findWithApiByPageByNew(page, limit, poster, year);
+        movieRepository.saveAll(movieList);
+        return movieList;
+    }
+
     private Optional<Movie>findWithApiById(Long id) {
         Optional<Movie> movie = Optional.empty();
         try {
@@ -63,6 +76,15 @@ public class MovieService {
 
     private List<Movie> findWithApiByPageByGenre(int page, int limit, String genre) {
         return kinopoiskApiClient.findByPageByRGenres(page, limit, genre).getMovies();
+    }
+
+    // новые методы
+    private List<Movie> findWithApiByPageByPopularity(int page, int limit, String lists) {
+        return kinopoiskApiClient.findByPageByPopularity(page, limit, lists).getMovies();
+    }
+
+    private List<Movie> findWithApiByPageByNew(int page, int limit, String poster,String year) {
+        return kinopoiskApiClient.findByPageByNew(page, limit, poster, year).getMovies();
     }
 
 }
